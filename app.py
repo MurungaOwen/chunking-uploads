@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from services.file import upload_chunks, merge_chunks
+from services.file import upload_to_s3
 
 
 def create_app():
@@ -31,13 +31,12 @@ async def upload_file(file: UploadFile = File(...)):
         if not file:
             raise HTTPException(status_code=400, detail="No file uploaded")
 
-        chunk_count, file_id = await upload_chunks(file)
-        merge_chunks(file.filename,file_id, chunk_count) # type: ignore
+        file_url = await upload_to_s3(file) # type: ignore
         return JSONResponse(
             status_code=200,
             content={
                 "message": "File uploaded and processed successfully",
-                "chunk_count": chunk_count,
+                "live_url": file_url,
             }
         )
     except Exception as e:
