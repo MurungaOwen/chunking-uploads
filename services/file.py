@@ -51,7 +51,7 @@ async def upload_to_s3(file: UploadFile) -> str:
             UploadId=upload_id,
             MultipartUpload={"Parts": parts}
         )
-
+        
         url = s3.generate_presigned_url(
             ClientMethod='get_object',
             Params={
