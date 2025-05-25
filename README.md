@@ -1,4 +1,4 @@
-# Python Threading FastAPI S3 Uploader
+# FastAPI chunking Uploader
 
 This project is a FastAPI application for uploading filesin chunks, in the `main` branch we use directory and in `s3-integration` branch we use s3 buckets to store the files.supporting large file uploads with multipart upload. It is designed for extensibility and ease of use.
 
